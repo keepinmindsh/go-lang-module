@@ -15,5 +15,25 @@
         <yaml>$USER_HOME$/.cache/buf/v1/module/data/buf.build/googleapis/googleapis/783e4b5374fa488ab068d08af9658438/buf.yaml</yaml>
       </module>
     </libraries>
+    <modules>
+      <module>
+        <dependencies>
+          <set>
+            <option value="buf.build/googleapis/googleapis" />
+          </set>
+        </dependencies>
+        <lockedDependencies>
+          <dependency>
+            <commit>75b4300737fb4efca0831636be94e517</commit>
+            <owner>googleapis</owner>
+            <remote>buf.build</remote>
+            <repository>googleapis</repository>
+          </dependency>
+        </lockedDependencies>
+        <name>buf.build/yourorg/myprotos</name>
+        <path>$PROJECT_DIR$</path>
+        <yaml>$PROJECT_DIR$/buf.yaml</yaml>
+      </module>
+    </modules>
   </component>
 </project>
