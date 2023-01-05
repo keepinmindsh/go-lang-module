@@ -13,15 +13,20 @@ message StringMessage {
     string value = 1;
 }
 
+message HelloWorldMessage {
+    string hello = 1;
+    string word = 2;
+}
+
 service YourService {
     rpc Echo(StringMessage) returns (StringMessage) {
     option (google.api.http) = {
-      post: "/v1/example/echo"
+      post: "/v1/echo"
          body: "*"
       };
     }
 
-    rpc HelloWorld(StringMessage) returns (StringMessage) {
+    rpc HelloWorld(HelloWorldMessage) returns (HelloWorldMessage) {
         option (google.api.http) = {
             post: "/v1/hello"
             body: "*"

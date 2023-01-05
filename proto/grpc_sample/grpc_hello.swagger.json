@@ -16,7 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/v1/example/echo": {
+    "/v1/echo": {
       "post": {
         "operationId": "YourService_Echo",
         "responses": {
@@ -40,6 +40,38 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/v1StringMessage"
+            }
+          }
+        ],
+        "tags": [
+          "YourService"
+        ]
+      }
+    },
+    "/v1/hello": {
+      "post": {
+        "operationId": "YourService_HelloWorld",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1HelloWorldMessage"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1HelloWorldMessage"
             }
           }
         ],
@@ -74,6 +106,17 @@
           "items": {
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "v1HelloWorldMessage": {
+      "type": "object",
+      "properties": {
+        "hello": {
+          "type": "string"
+        },
+        "word": {
+          "type": "string"
         }
       }
     },

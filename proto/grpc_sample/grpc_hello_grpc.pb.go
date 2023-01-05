@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type YourServiceClient interface {
 	Echo(ctx context.Context, in *StringMessage, opts ...grpc.CallOption) (*StringMessage, error)
+	HelloWorld(ctx context.Context, in *HelloWorldMessage, opts ...grpc.CallOption) (*HelloWorldMessage, error)
 }
 
 type yourServiceClient struct {
@@ -42,11 +43,21 @@ func (c *yourServiceClient) Echo(ctx context.Context, in *StringMessage, opts ..
 	return out, nil
 }
 
+func (c *yourServiceClient) HelloWorld(ctx context.Context, in *HelloWorldMessage, opts ...grpc.CallOption) (*HelloWorldMessage, error) {
+	out := new(HelloWorldMessage)
+	err := c.cc.Invoke(ctx, "/your.service.v1.YourService/HelloWorld", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // YourServiceServer is the server API for YourService service.
 // All implementations must embed UnimplementedYourServiceServer
 // for forward compatibility
 type YourServiceServer interface {
 	Echo(context.Context, *StringMessage) (*StringMessage, error)
+	HelloWorld(context.Context, *HelloWorldMessage) (*HelloWorldMessage, error)
 	mustEmbedUnimplementedYourServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedYourServiceServer struct {
 
 func (UnimplementedYourServiceServer) Echo(context.Context, *StringMessage) (*StringMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Echo not implemented")
+}
+func (UnimplementedYourServiceServer) HelloWorld(context.Context, *HelloWorldMessage) (*HelloWorldMessage, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HelloWorld not implemented")
 }
 func (UnimplementedYourServiceServer) mustEmbedUnimplementedYourServiceServer() {}
 
@@ -88,6 +102,24 @@ func _YourService_Echo_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _YourService_HelloWorld_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HelloWorldMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(YourServiceServer).HelloWorld(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/your.service.v1.YourService/HelloWorld",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(YourServiceServer).HelloWorld(ctx, req.(*HelloWorldMessage))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // YourService_ServiceDesc is the grpc.ServiceDesc for YourService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var YourService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Echo",
 			Handler:    _YourService_Echo_Handler,
+		},
+		{
+			MethodName: "HelloWorld",
+			Handler:    _YourService_HelloWorld_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
