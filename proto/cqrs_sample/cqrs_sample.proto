@@ -1,0 +1,56 @@
+syntax = "proto3";
+package lines.cqrs_sample;
+option go_package = "github.com/lines/cqrs_sample";
+
+import "google/api/annotations.proto";
+
+message SaveMessageRequest {
+    string key = 1;
+    string message = 2;
+}
+
+message GetMessagesRequest {
+    string channel = 1;
+}
+
+message GetMessagesResponse {
+    repeated MessageModel message_models = 1;
+}
+
+message MessageModel {
+    string key = 1;
+    string message = 2;
+}
+
+message GetMessageRequest {
+    string channel = 1;
+    string key = 3;
+}
+
+message GetMessageResponse {
+    string status = 1;
+}
+
+message SaveMessageResponse {
+    string status = 1;
+}
+
+
+service CqrsService {
+    rpc SaveMessage(SaveMessageRequest) returns (SaveMessageResponse) {
+        option (google.api.http) = {
+            post : "/v1/message"
+            body: "*"
+        };
+    }
+    rpc GetMessage(GetMessageRequest) returns (GetMessageResponse) {
+        option (google.api.http) = {
+            get : "/v1/message"
+        };
+    }
+    rpc GetMessages(GetMessagesRequest) returns (GetMessagesResponse) {
+        option (google.api.http) = {
+            get : "/v1/messages"
+        };
+    }
+}
