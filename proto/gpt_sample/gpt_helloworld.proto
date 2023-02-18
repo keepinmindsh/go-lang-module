@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package openai;
+option go_package = "github.com/lines/gpt_sample";
+
+service GPT3 {
+    rpc GenerateText (GPT3Request) returns (GPT3Response) {}
+}
+
+message GPT3Request {
+    string model = 1;
+    string prompt = 2;
+}
+
+message GPT3Response {
+    string text = 1;
+}
