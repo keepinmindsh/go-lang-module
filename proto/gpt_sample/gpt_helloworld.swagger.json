@@ -15,8 +15,52 @@
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/v1/ai/generation/text": {
+      "post": {
+        "operationId": "GPT3_GenerateText",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/openaiGPT3Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/openaiGPT3Request"
+            }
+          }
+        ],
+        "tags": [
+          "GPT3"
+        ]
+      }
+    }
+  },
   "definitions": {
+    "openaiGPT3Request": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string"
+        }
+      }
+    },
     "openaiGPT3Response": {
       "type": "object",
       "properties": {

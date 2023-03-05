@@ -79,7 +79,7 @@ func RegisterGPT3HandlerServer(ctx context.Context, mux *runtime.ServeMux, serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/openai.GPT3/GenerateText", runtime.WithHTTPPathPattern("/openai.GPT3/GenerateText"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/openai.GPT3/GenerateText", runtime.WithHTTPPathPattern("/v1/ai/generation/text"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -143,7 +143,7 @@ func RegisterGPT3HandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/openai.GPT3/GenerateText", runtime.WithHTTPPathPattern("/openai.GPT3/GenerateText"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/openai.GPT3/GenerateText", runtime.WithHTTPPathPattern("/v1/ai/generation/text"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -163,7 +163,7 @@ func RegisterGPT3HandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 }
 
 var (
-	pattern_GPT3_GenerateText_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"openai.GPT3", "GenerateText"}, ""))
+	pattern_GPT3_GenerateText_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "ai", "generation", "text"}, ""))
 )
 
 var (

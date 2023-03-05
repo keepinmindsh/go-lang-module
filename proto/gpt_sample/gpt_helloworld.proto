@@ -3,8 +3,15 @@ syntax = "proto3";
 package openai;
 option go_package = "github.com/lines/gpt_sample";
 
+import "google/api/annotations.proto";
+
 service GPT3 {
-    rpc GenerateText (GPT3Request) returns (GPT3Response) {}
+    rpc GenerateText (GPT3Request) returns (GPT3Response) {
+        option (google.api.http) = {
+            post: "/v1/ai/generation/text"
+            body: "*"
+        };
+    }
 }
 
 message GPT3Request {
