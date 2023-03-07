@@ -58,6 +58,9 @@
         },
         "prompt": {
           "type": "string"
+        },
+        "hello": {
+          "type": "string"
         }
       }
     },

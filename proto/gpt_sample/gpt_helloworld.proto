@@ -17,6 +17,7 @@ service GPT3 {
 message GPT3Request {
     string model = 1;
     string prompt = 2;
+    string hello = 3;
 }
 
 message GPT3Response {
