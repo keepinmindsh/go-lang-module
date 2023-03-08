@@ -1,0 +1,110 @@
+syntax = "proto3";
+package lines.grpc.user.v1;
+option go_package = "github.com/lines/grpc/v1";
+
+import "google/api/annotations.proto";
+
+service User {
+    rpc InsertUser(InsertUserRequest) returns (InsertUserResponse){
+        option (google.api.http) = {
+            post: "/v1/user"
+            body: "*"
+        };
+    }
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse){
+        option (google.api.http) = {
+            put: "/v1/user"
+        };
+    }
+    rpc UpdateUserStatus(UpdateUserStatusRequest) returns (UpdateUserStatusResponse){
+        option (google.api.http) = {
+            put : "/v1/user/status"
+        };
+    }
+    rpc SelectUser(SelectUserRequest) returns (SelectUserResponse){
+        option (google.api.http) = {
+            get : "/v1/user"
+        };
+    }
+    rpc SelectListUser(SelectListUserRequest) returns (SelectListUserResponse){
+        option (google.api.http) = {
+            get : "/v1/users"
+        };
+    }
+}
+
+message InsertUserRequest {
+    string user_name = 1;
+    string email = 2;
+    string password = 3;
+    Status status = 4;
+}
+
+message InsertUserResponse {
+    string status = 1;
+    string message = 2;
+    int64 user_no=3;
+}
+
+message UpdateUserRequest {
+    int64 user_no = 1;
+    string user_name = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message UpdateUserResponse {
+    string status = 1;
+    string message = 2;
+}
+
+message UpdateUserStatusRequest {
+    int64 user_no = 1;
+    Status status = 2;
+}
+
+message UpdateUserStatusResponse {
+    string status = 1;
+    string message = 2;
+}
+
+message SelectUserRequest {
+    string search_key = 1;
+    Status status = 2;
+}
+
+message SelectUserResponse {
+    string status = 1;
+    string message = 2;
+    SelectUser user = 3;
+}
+
+message SelectListUserRequest {
+    string search_key = 1;
+    Status status = 2;
+}
+
+message SelectListUserResponse {
+    string status = 1;
+    string message = 2;
+    repeated SelectUser users = 3;
+}
+
+message SelectUser {
+    int64 user_no = 1;
+    string user_name = 2;
+    string email = 3;
+    string password = 4;
+    Status status = 5;
+    string created = 6;
+    string updated = 7;
+}
+
+enum Status {
+    ACTIVE = 0;
+    INACTIVE = 1;
+    PENDING = 2;
+    RECESS = 3;
+    BLOCKED = 4;
+    BANNED = 5;
+}
